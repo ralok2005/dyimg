@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html><head><title>ArtPlayer</title><meta charset="UTF-8" /></head><body>
+<div class="artplayer-app" style="width:400px;height:300px"></div>
+<script src="//cdn.jsdelivr.net/npm/cdnbye@latest"></script>
+<script src="//cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
+<script src="//cdn.jsdelivr.net/npm/artplayer-plugin-ads/dist/artplayer-plugin-ads.js"></script>
+<script>
+    var art = new Artplayer({
+        container: '.artplayer-app',
+        url: 'https://test-streams.mux.dev/x36xhzz/url_8/193039199_mp4_h264_aac_fhd_7.m3u8',
+//视频广告插件开始
+        autoSize: true,
+        fullscreen: true,
+        fullscreenWeb: true,
+        plugins: [
+        artplayerPluginAds({
+            // html广告，假如是视频广告则忽略该值
+            html: '<img src="https://artplayer.org/assets/sample/poster.jpg">',
+            // 视频广告的地址 增加视频广告则html广告不显示
+            video: '',
+            // 广告跳转网址，为空则不跳转
+            url: 'http://www.baidu.com/',
+            // 必须观看的时长，期间不能被跳过，单位为秒
+            // 当该值大于或等于totalDuration时，不能提前关闭广告
+            // 当该值等于或小于0时，则随时都可以关闭广告
+            playDuration: 5,
+            // 广告总时长，单位为秒
+            totalDuration: 10,
+            // 视频广告是否默认静音
+            muted: false,
+            // 多语言支持
+            i18n: {
+                close: '关闭广告',
+                countdown: '%s秒',
+                detail: '查看详情',
+                canBeClosed: '%s秒后可关闭广告',
+            },
+        }),
+    ],
+});
+art.on('artplayerPluginAds:click', (ads) => {
+    console.info('广告被点击', ads);
+});
+art.on('artplayerPluginAds:skip', (ads) => {
+    console.info('广告被跳过', ads);
+});
+//视频广告插件结束
+        customType: {
+            m3u8: function (video, url) {
+                var hls = new Hls({
+                    p2pConfig: {
+                        live: true,          // 如果是点播设为false
+                        getStats: function (totalP2PDownloaded, totalP2PUploaded, totalHTTPDownloaded) {
+                            console.log(`totalP2PDownloaded ${totalP2PDownloaded} totalP2PUploaded ${totalP2PUploaded} totalHTTPDownloaded ${totalHTTPDownloaded}`)
+                        },
+                        // Other p2pConfig options provided by CDNBye
+                    }
+                });
+                hls.loadSource(url);
+                hls.attachMedia(video);
+            },
+        },
+    });
+</script>
+</body>
+</html>
