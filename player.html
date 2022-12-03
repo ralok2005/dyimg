@@ -10,14 +10,14 @@
 <script src="//cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
 <script src="//cdn.jsdelivr.net/npm/artplayer-plugin-ads/dist/artplayer-plugin-ads.js"></script>
 </head>
-    <body oncontextmenu="return!1" ondragstart="return!1" onselectstart="return!1" onselect="document.selection.empty()" oncopy="document.selection.empty()" onbeforecopy="return!1" onmouseup="document.selection.empty()">
+    <body>
         <div id="dplayer" class="dplayer" style="top:20px;height:98%;"></div>
         <script>
         var request=(function(){var obj={};var arr=window.location.search.slice(1).split("&");for(var i=0,len=arr.length;i<len;i++){var nv=arr[i].split("=");obj[decodeURIComponent(nv[0]).toLowerCase()]=decodeURIComponent(nv[1])}return obj})();var vid=request.url;
         var art = new Artplayer({
         container: '.dplayer',
         url: vid,
-	    autoplay: true,
+			autoplay: true,
             autoSize: false,
             loop: false,
             mutex: true,
@@ -40,12 +40,12 @@
                 preload: "metadata"
             },
             icons: {
-                loading: '<img src="https://mp-9afd1a33-057a-4750-83ef-21dec98ac67c.cdn.bspapp.com/cloudstorage/9efa9573-e320-493f-8fc3-0a3bfab62f6a.jpg">',
+                loading: '<img width="50" src="https://mp-9afd1a33-057a-4750-83ef-21dec98ac67c.cdn.bspapp.com/cloudstorage/32d807fc-aa27-459a-a593-b7dd5c78a2c7.gif">',
                 state: '<img width="150" heigth="150" src="https://mp-9afd1a33-057a-4750-83ef-21dec98ac67c.cdn.bspapp.com/cloudstorage/35733b6c-893c-4134-928a-04d25e403597.svg">',
                 indicator: '<img width="16" heigth="16" src="https://mp-9afd1a33-057a-4750-83ef-21dec98ac67c.cdn.bspapp.com/cloudstorage/1a003ae0-f65d-4a02-88cd-ca117bb5edc0.svg">',
             },
            plugins: [
-            artplayerPluginAds({
+               artplayerPluginAds({
             // html广告，假如是视频广告则忽略该值
             html: '<img src="https://mp-9afd1a33-057a-4750-83ef-21dec98ac67c.cdn.bspapp.com/cloudstorage/e462b535-e07c-4d14-8058-b98ba0552c41.jpg">',
             // 视频广告的地址
@@ -56,7 +56,6 @@
             // 当该值大于或等于totalDuration时，不能提前关闭广告
             // 当该值等于或小于0时，则随时都可以关闭广告
             playDuration: 0,
-
             // 广告总时长，单位为秒
             totalDuration: 10,
 
@@ -67,12 +66,13 @@
                 detail: '查看详情',
                 canBeClosed: '%s秒后可关闭广告',
             },
-        }),
-    ],
+              }),
+         ],
         customType: {
             m3u8: function (video, url) {
                 var hls = new Hls({
                     p2pConfig: {
+                        announceLocation: 'hk',
                         wsSignalerAddr: 'wss://signal.cdnbye.com',
                         wsSignalerAddr: 'wss://korea.cdnbye.com',
                        // Other p2pConfig options provided by cdnbye
@@ -95,10 +95,15 @@ art.on('artplayerPluginAds:click', (ads) => {
 });
 
 // 广告被跳过
-art.on('artplayerPluginAds:skip', (ads) => {
+art.on('artplayerPluginAds:show', (ads) => {
     console.info('广告被跳过', ads);
 });
-        </script>
+
+</script>
         <div id="a1" class="dplayer dplayer-no-danmaku"><div class="dplayer-mask"></div><div id="ac_tips" class="fodong_box hidden-xs" style="overflow:hidden;top:8px;left:8px;padding:0 12px;border-radius:10px;width:calc(100% - 35px)"><div class="fodong_tips"><ul style="margin-top:0;margin:0;padding:0;text-shadow:0 0 3px #000"><li style="list-style:none"><span class="font_zd">警 告</span>不 要 相 信 视 频 中 的 广 告，谨 防 上 当 受 骗!</li></ul></div><div id="stats" class="yinc"></div></div></div>
     </body>
 </html>
+
+
+
+
